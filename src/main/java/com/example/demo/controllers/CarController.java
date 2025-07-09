@@ -1,7 +1,11 @@
 package com.example.demo.controllers;
 
-import com.example.demo.dao.CarDao;
+import com.example.demo.dto.CarLevel1DTO;
+import com.example.demo.dto.CarLevel2DTO;
 import com.example.demo.models.Car;
+import com.example.demo.services.CarService;
+import com.example.demo.utils.CarMapper;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,40 +18,51 @@ import java.util.List;
 @AllArgsConstructor
 public class CarController {
 
-    private final CarDao carDao;
+    private final CarService carService;
 
     @GetMapping
-    public ResponseEntity<List<Car>> getAllCars() {
-        List<Car> cars = carDao.findAll();
-        return new ResponseEntity<>(cars, HttpStatus.OK);
+    public ResponseEntity<List<CarLevel1DTO>> getAllCars() {
+        return new ResponseEntity<>(CarMapper
+                .toLevel1DTOList(
+                        carService.getAllCars()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Car> getCarById(@PathVariable Long id) {
-        return new ResponseEntity<>(carDao.findById(id).get(), HttpStatus.OK);
+    public ResponseEntity<CarLevel1DTO> getCarById(@PathVariable Long id) {
+        return new ResponseEntity<>(CarMapper
+                .toLevel1DTO(
+                        carService.getCarById(id)), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Car> addCar(@RequestBody Car car) {
-        return new ResponseEntity<>(carDao.save(car), HttpStatus.CREATED);
+    public ResponseEntity<CarLevel1DTO> addCar(@RequestBody @Valid Car car) {
+        return new ResponseEntity<>(CarMapper
+                .toLevel1DTO(
+                        carService.addCar(car)), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<List<Car>> deleteCarById(@PathVariable Long id) {
-        carDao.deleteById(id);
-        return new ResponseEntity<>(carDao.findAll(), HttpStatus.OK);
+    public ResponseEntity<Void> deleteCarById(@PathVariable Long id) {
+        carService.deleteCar(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/power/{value}")
-    public ResponseEntity<List<Car>> getCarsByPower(@PathVariable Integer value) {
-        List<Car> carsByPower = carDao.getCarsByPower(value);
-        return new ResponseEntity<>(carsByPower, HttpStatus.OK);
+    public ResponseEntity<List<CarLevel2DTO>> getCarsByPower(@PathVariable Integer value) {
+        return new ResponseEntity<>(CarMapper
+                .toLevel2DTOList(
+                        carService
+                                .getCarsByPower(value)),
+                HttpStatus.OK);
     }
 
     @GetMapping("/producer/{value}")
-    public ResponseEntity<List<Car>> getCarsByProducer(@PathVariable String value) {
-        List<Car> carsByProducer = carDao.getCarsByProducer(value);
-        return new ResponseEntity<>(carsByProducer, HttpStatus.OK);
+    public ResponseEntity<List<CarLevel2DTO>> getCarsByProducer(@PathVariable String value) {
+
+        return new ResponseEntity<>(CarMapper
+                .toLevel2DTOList(
+                        carService.getCarsByProducer(value)
+                ), HttpStatus.OK);
     }
 
 }
