@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     private final JavaMailSender javaMailSender;
-    private final String to = "*********@gmail.com";
+    private final String to = "pridatchenkovladislav@gmail.com";
 
     public void sendCarSavedEmail(Car car) {
         send("Авто збережено!", car);
