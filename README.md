@@ -1,4 +1,5 @@
 CHANGE EMAIL AT EmailSrvice.java WHERE YOU WANT TO SEND MAILS
+
 CHANGE aplication.properties MAIL AND DB IF YOU NEED
 
 – Взяти попереднє ДЗ з автомобілями
