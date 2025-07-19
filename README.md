@@ -11,6 +11,7 @@ user – може тільки отримувати дані
 ---
 
 Register:
+
   -api/v1/auth/register
   
   Body:
