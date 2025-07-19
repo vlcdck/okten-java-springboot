@@ -2,16 +2,13 @@ package com.example.demo.mappers;
 
 import com.example.demo.models.AppUser;
 import com.example.demo.models.Car;
+import com.example.demo.models.dto.AppUserShortDTO;
 import com.example.demo.models.dto.CarDTO;
 import com.example.demo.models.dto.SimpleCarDTO;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class CarMapper {
-
-    private AppUserMapper appUserMapper;
 
     public CarDTO toCarDTO(Car car) {
         if (car == null) {
@@ -21,7 +18,7 @@ public class CarMapper {
                 car.getBrand(),
                 car.getModel(),
                 car.getPrice(),
-                appUserMapper.toAppUserShortDTO(car.getOwner())
+                toAppUserShortDTO(car.getOwner())
         );
     }
 
@@ -46,6 +43,18 @@ public class CarMapper {
                 .price(carDTO.getPrice())
                 .owner(owner)
                 .build();
+    }
+
+    public AppUserShortDTO toAppUserShortDTO(AppUser appUser) {
+        if (appUser == null) {
+            return null;
+        }
+
+        return new AppUserShortDTO(
+                appUser.getFirstName(),
+                appUser.getLastName(),
+                appUser.getEmail()
+        );
     }
 
 }

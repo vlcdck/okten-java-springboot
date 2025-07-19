@@ -4,13 +4,13 @@ import com.example.demo.models.AppUser;
 import com.example.demo.models.dto.AppUserDTO;
 import com.example.demo.models.dto.AppUserShortDTO;
 import com.example.demo.models.dto.SimpleCarDTO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AppUserMapper {
     private final CarMapper carMapper;
 
